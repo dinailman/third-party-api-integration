@@ -1,0 +1,6 @@
+/api
+/worker
+*.test
+.env
+.env.*
+!.env.example

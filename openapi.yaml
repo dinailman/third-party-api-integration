@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Third-Party API Integration Service
+  version: 1.0.0
+  description: Normalize inconsistent provider payloads into a common metric schema.
+servers:
+  - url: http://localhost:8084
+paths:
+  /providers:
+    get: {summary: List providers, responses: {'200': {description: Providers}}}
+    post: {summary: Register a provider, responses: {'201': {description: Created}, '400': {description: Invalid mapping}}}
+  /ingest/{provider}:
+    parameters: [{name: provider, in: path, required: true, schema: {type: string}}]
+    post:
+      summary: Receive a raw provider payload
+      parameters: [{name: X-External-ID, in: header, required: false, schema: {type: string}}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object}}}}
+      responses: {'202': {description: Accepted}, '404': {description: Provider not found}, '400': {description: Invalid JSON}}
+  /metrics:
+    get:
+      summary: Query normalized metrics
+      parameters:
+        - {name: user_id, in: query, schema: {type: string}}
+        - {name: metric_type, in: query, schema: {type: string}}
+        - {name: from, in: query, schema: {type: string, format: date-time}}
+        - {name: to, in: query, schema: {type: string, format: date-time}}
+      responses: {'200': {description: Normalized metrics}}
+  /ingestion-logs:
+    get: {summary: Inspect raw ingestion logs, responses: {'200': {description: Ingestion logs}}}
+  /error-logs:
+    get: {summary: Inspect normalization errors, responses: {'200': {description: Error logs}}}
+  /healthz:
+    get: {summary: Check PostgreSQL and Redis, responses: {'200': {description: Healthy}, '503': {description: Unhealthy}}}
+  /prometheus:
+    get: {summary: Prometheus metrics, responses: {'200': {description: Metrics text}}}
