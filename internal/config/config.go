@@ -18,7 +18,7 @@ type Config struct {
 func Load() Config {
 	return Config{
 		HTTPAddr:       env("HTTP_ADDR", ":8084"),
-		DatabaseURL:    env("DATABASE_URL", "postgres://postgres:postgres@localhost:5436/integrations?sslmode=disable"),
+		DatabaseURL:    env("DATABASE_URL", "postgres://postgres:postgres@localhost:15436/integrations?sslmode=disable"),
 		RedisAddr:      env("REDIS_ADDR", "localhost:16381"),
 		QueueName:      env("QUEUE_NAME", "integration:raw-ingest"),
 		WorkerCount:    envInt("WORKER_COUNT", 4),
