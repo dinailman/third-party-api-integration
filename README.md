@@ -200,6 +200,15 @@ go build ./cmd/worker
 docker compose config
 ```
 
+Run the integration suite against a throwaway database:
+
+```bash
+docker compose up -d postgres
+docker compose exec -T postgres psql -U postgres -c 'CREATE DATABASE integrations_test'
+TEST_DATABASE_URL='postgres://postgres:postgres@localhost:15436/integrations_test?sslmode=disable' go test -race ./tests/integration -v
+docker compose down -v
+```
+
 Run the Docker-backed lifecycle test:
 
 ```bash

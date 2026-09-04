@@ -8,14 +8,14 @@ servers:
 paths:
   /providers:
     get: {summary: List providers, responses: {'200': {description: Providers}}}
-    post: {summary: Register a provider, responses: {'201': {description: Created}, '400': {description: Invalid mapping}}}
+    post: {summary: Register a provider, responses: {'201': {description: Created}, '400': {description: Invalid JSON body}, '409': {description: Provider could not be created}}}
   /ingest/{provider}:
     parameters: [{name: provider, in: path, required: true, schema: {type: string}}]
     post:
       summary: Receive a raw provider payload
       parameters: [{name: X-External-ID, in: header, required: false, schema: {type: string}}]
       requestBody: {required: true, content: {application/json: {schema: {type: object}}}}
-      responses: {'202': {description: Accepted}, '404': {description: Provider not found}, '400': {description: Invalid JSON}}
+      responses: {'202': {description: Accepted}, '400': {description: Invalid JSON}, '404': {description: Provider not found}, '409': {description: Duplicate X-External-ID for this provider}, '503': {description: Payload recorded but queue unavailable}}
   /metrics:
     get:
       summary: Query normalized metrics
