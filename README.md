@@ -1,3 +1,5 @@
+[![CI](https://github.com/dinailman/third-party-api-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/dinailman/third-party-api-integration/actions/workflows/ci.yml)
+
 # Third-Party API Integration Service
 
 Production-style Go integration microservice that normalizes inconsistent provider payloads into a common metric schema.
@@ -30,6 +32,18 @@ POST /ingest/{provider}
 ```
 
 PostgreSQL is the source of truth. Redis carries only raw ingest IDs, so payloads and processing history remain inspectable even when a worker crashes. Failed payloads retry three times and then become `dead` with an error log.
+
+## Proof: duplicate payloads under concurrency
+
+A provider retries a delivery and the same measurement is stored twice.
+
+The guarantee is enforced by PostgreSQL, not by application code. `migrations/001_init.sql` declares `UNIQUE(provider_id, external_id)` on `raw_ingest_logs`, and `CreateRaw` carries no `ON CONFLICT` clause, so a second delivery reusing an `X-External-ID` already seen for that provider fails the constraint with SQLSTATE `23505` and is refused with HTTP 409 rather than stored. A second constraint, `raw_ingest_id UUID NOT NULL UNIQUE` on `normalized_metrics`, pairs with `ON CONFLICT(raw_ingest_id) DO NOTHING` in `SaveMetric`, so a raw payload normalized twice still yields one metric row. Deliveries sent without `X-External-ID` are not deduplicated.
+
+`TestConcurrentIngestCreatesOneMetric` in `tests/integration` releases 50 goroutines from one channel against a single external ID on a throwaway database, and asserts that exactly one caller succeeds, that the other 49 fail with SQLSTATE `23505`, and that `count(*)` is 1 for both the raw ingest row and its normalized metric.
+
+```bash
+TEST_DATABASE_URL='postgres://postgres:postgres@localhost:15436/integrations_test?sslmode=disable' go test -race ./tests/integration -run TestConcurrentIngestCreatesOneMetric -v
+```
 
 ## Features
 
