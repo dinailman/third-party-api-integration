@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dinailman/third-party-api-integration-service/internal/models"
-	"github.com/dinailman/third-party-api-integration-service/internal/normalizer"
+	"github.com/dinailman/third-party-api-integration/internal/models"
+	"github.com/dinailman/third-party-api-integration/internal/normalizer"
 	"github.com/jackc/pgx/v5/pgconn"
 )
 

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/dinailman/third-party-api-integration-service/internal/models"
+	"github.com/dinailman/third-party-api-integration/internal/models"
 	"strconv"
 	"strings"
 	"time"

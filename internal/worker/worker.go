@@ -3,9 +3,9 @@ package worker
 import (
 	"context"
 	"fmt"
-	"github.com/dinailman/third-party-api-integration-service/internal/normalizer"
-	"github.com/dinailman/third-party-api-integration-service/internal/queue"
-	"github.com/dinailman/third-party-api-integration-service/internal/repositories"
+	"github.com/dinailman/third-party-api-integration/internal/normalizer"
+	"github.com/dinailman/third-party-api-integration/internal/queue"
+	"github.com/dinailman/third-party-api-integration/internal/repositories"
 	"log/slog"
 	"sync"
 	"time"

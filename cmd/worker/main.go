@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"github.com/dinailman/third-party-api-integration-service/internal/config"
-	"github.com/dinailman/third-party-api-integration-service/internal/database"
-	"github.com/dinailman/third-party-api-integration-service/internal/queue"
-	"github.com/dinailman/third-party-api-integration-service/internal/repositories"
-	"github.com/dinailman/third-party-api-integration-service/internal/worker"
+	"github.com/dinailman/third-party-api-integration/internal/config"
+	"github.com/dinailman/third-party-api-integration/internal/database"
+	"github.com/dinailman/third-party-api-integration/internal/queue"
+	"github.com/dinailman/third-party-api-integration/internal/repositories"
+	"github.com/dinailman/third-party-api-integration/internal/worker"
 	"log/slog"
 	"os"
 	"os/signal"

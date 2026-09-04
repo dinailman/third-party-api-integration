@@ -1,7 +1,7 @@
 package normalizer
 
 import (
-	"github.com/dinailman/third-party-api-integration-service/internal/models"
+	"github.com/dinailman/third-party-api-integration/internal/models"
 	"testing"
 	"time"
 )

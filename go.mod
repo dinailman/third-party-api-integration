@@ -1,4 +1,4 @@
-module github.com/dinailman/third-party-api-integration-service
+module github.com/dinailman/third-party-api-integration
 
 go 1.23
 

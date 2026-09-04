@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dinailman/third-party-api-integration-service/internal/repositories"
+	"github.com/dinailman/third-party-api-integration/internal/repositories"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
